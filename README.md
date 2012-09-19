@@ -26,7 +26,7 @@ A Clojure library shakes your shell.
 ### Too Slow to Load (Verbose Clojure Warnings) ?
 
 By default, *shake* indexes all executables under your **PATH**. To
-override this behavior, set a environment variable called `SHAKE_PATH`
+override this behavior, set environment variable `SHAKE_PATH`
 **before** you initialize the namespace `shake.core`.
 
 ## License
