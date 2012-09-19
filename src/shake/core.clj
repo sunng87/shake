@@ -15,7 +15,7 @@
              `(let [~proc-sym# (.start (ProcessBuilder.
                                   (conj '~str-args# ~~n)))]
                 (if *print-output*
-                  (println (slurp (.getInputStream ~proc-sym#)))
+                  (print (slurp (.getInputStream ~proc-sym#)))
                   ~proc-sym#))))))
 
 (defn- generate-vars [dir]
