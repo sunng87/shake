@@ -1,4 +1,5 @@
 (ns shake.core
+  (:require [clojure.java.shell])
   (:import [java.io File FileFilter]))
 
 (def ^:dynamic *print-output* false)
@@ -11,11 +12,10 @@
 (defn- create-shake-exec-var [n]
   (eval `(defmacro ~(symbol n) [& args#]
            (let [str-args# (list* (map str args#))
-                 proc-sym# (symbol "proc")]
-             `(let [~proc-sym# (.start (ProcessBuilder.
-                                  (conj '~str-args# ~~n)))]
+                 proc-sym# (gensym "proc")]
+             `(let [~proc-sym# (clojure.java.shell/sh ~~n ~@str-args#)]
                 (if *print-output*
-                  (print (slurp (.getInputStream ~proc-sym#)))
+                  (print (:out ~proc-sym#))
                   ~proc-sym#))))))
 
 (defn- generate-vars [dir]
@@ -28,5 +28,5 @@
              (or
               (System/getenv "SHAKE_PATH")
               (System/getenv "PATH"))
-             #":")))
+             (re-pattern (System/getProperty "path.separator")))))
 
