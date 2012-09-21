@@ -7,7 +7,7 @@ A Clojure library shakes your shell.
 ### Leiningen
 
 ```
-[shake "0.1.0"]
+[shake "0.1.1"]
 ```
 
 ### Just That Simple
@@ -21,6 +21,17 @@ A Clojure library shakes your shell.
 ;; if you just want to see the output:
 (binding [*print-output* true]
   (uname -a))
+```
+
+### I/O
+
+shake extends `Process` with clojure's IOFactory. So you can
+`(input-stream)` or `(output-stream)` the process to get a streamed
+I/O.
+
+```clojure
+;; print output of `uname -a`
+(print (slurp (input-stream (uname -a))))
 ```
 
 ### Too Slow to Load (Verbose Clojure Warnings) ?

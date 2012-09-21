@@ -35,5 +35,5 @@
              (or
               (System/getenv "SHAKE_PATH")
               (System/getenv "PATH"))
-             #":")))
+             (re-pattern (System/getProperty "path.separator")))))
 
