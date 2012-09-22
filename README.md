@@ -7,20 +7,24 @@ A Clojure library shakes your shell.
 ### Leiningen
 
 ```
-[shake "0.1.1"]
+[shake "0.2.0"]
 ```
 
 ### Just That Simple
 
 ```clojure
-(use 'shake.core)
+(require '[shake.core :as sh])
 
 ;; any shell command ...
-(uname -a) ;;returns a #<UNIXProcess java.lang.UNIXProcess@1833160>
+(sh/uname -a) ;;returns a #<UNIXProcess java.lang.UNIXProcess@1833160>
+
+;; using clojure variables (vars, local bindings) in shake
+(let [home "/home/sunng87"]
+  (sh/ls -l $home))
 
 ;; if you just want to see the output:
 (binding [*print-output* true]
-  (uname -a))
+  (sh/uname -a))
 ```
 
 ### I/O
@@ -31,7 +35,7 @@ I/O.
 
 ```clojure
 ;; print output of `uname -a`
-(print (slurp (input-stream (uname -a))))
+(print (slurp (input-stream (sh/uname -a))))
 ```
 
 ### Too Slow to Load (Verbose Clojure Warnings) ?
