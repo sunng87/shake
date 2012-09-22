@@ -17,10 +17,14 @@
 
 (defn- create-shake-exec-var [n]
   (eval `(defmacro ~(symbol n) [& args#]
-           (let [str-args# (list* (map str args#))
-                 proc-sym# (symbol "proc")]
+           (let [str-args# (list* (map #(if (.startsWith (str %) "$")
+                                          (symbol (subs (str %) 1))
+                                          (str %))
+                                       args#))
+                 proc-builder-args# (conj str-args# ~n)
+                 proc-sym# (gensym "proc")]
              `(let [~proc-sym# (.start (ProcessBuilder.
-                                  (conj '~str-args# ~~n)))]
+                                        (list ~@proc-builder-args#)))]
                 (if *print-output*
                   (print (slurp (.getInputStream ~proc-sym#)))
                   ~proc-sym#))))))
