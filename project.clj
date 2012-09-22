@@ -1,4 +1,4 @@
-(defproject shake "0.1.1"
+(defproject shake "0.2.0"
   :description "Clojure library that shakes your shell"
   :url "http://github.com/sunng87/shake"
   :license {:name "Eclipse Public License"
