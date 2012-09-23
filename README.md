@@ -23,7 +23,7 @@ A Clojure library shakes your shell.
   (sh/ls -l $home))
 
 ;; if you just want to see the output:
-(binding [*print-output* true]
+(binding [sh/*print-output* true]
   (sh/uname -a))
 ```
 
