@@ -1,4 +1,9 @@
 (ns shake.core
+  (:refer-clojure :only [reify assoc
+                         symbol subs str slurp
+                         conj gensym -> defmacro print
+                         list list* extend fn defn- eval let
+                         dorun map memfn or re-pattern])
   (:use [clojure.java.io :only [IOFactory default-streams-impl]])
   (:import [java.io File FileFilter]))
 
