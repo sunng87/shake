@@ -7,7 +7,7 @@ A Clojure library shakes your shell.
 ### Leiningen
 
 ```
-[shake "0.2.0"]
+[shake "0.2.1"]
 ```
 
 ### Just That Simple
