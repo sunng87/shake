@@ -7,7 +7,7 @@ A Clojure library shakes your shell.
 ### Leiningen
 
 ```
-[shake "0.2.1"]
+[shake "0.2.2"]
 ```
 
 ### Just That Simple
@@ -21,6 +21,9 @@ A Clojure library shakes your shell.
 ;; using clojure variables (vars, local bindings) in shake
 (let [home "/home/sunng87"]
   (sh/ls -l $home))
+
+;; using clojure forms in shake
+(sh/curl $(format "https://github.com/%s" "sunng87"))
 
 ;; if you just want to see the output:
 (binding [sh/*print-output* true]
