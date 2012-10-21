@@ -1,6 +1,6 @@
 (ns shake.core
   (:refer-clojure :only [reify assoc
-                         symbol subs str slurp filter cond
+                         symbol subs str slurp for cond
                          conj gensym -> defmacro print not nil? =
                          list list? extend fn defn- eval let
                          dorun map memfn or re-pattern])
@@ -23,13 +23,13 @@
 (defn- create-shake-exec-var [n]
   (eval `(defmacro ~(symbol n) [& args#]
            (let [str-args#
-                 (filter #(not (nil? %))
-                         (map #(cond
-                                (= (str %) "$") nil
-                                (list? %) %
-                                (.startsWith (str %) "$") (symbol (subs (str %) 1))
-                                :else (str %))
-                              args#))
+                 (for [x# args#
+                       :let [y# (cond
+                                (= (str x#) "$") nil
+                                (list? x#) x#
+                                (.startsWith (str x#) "$") (symbol (subs (str x#) 1))
+                                :else (str x#))]
+                       :when y#] y#)
                  proc-builder-args# (conj str-args# ~n)
                  proc-sym# (gensym "proc")]
              `(let [~proc-sym# (.start (ProcessBuilder.
