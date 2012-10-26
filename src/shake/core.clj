@@ -4,11 +4,6 @@
 
 (def ^:dynamic *print-output* false)
 
-#_(def ^:private xfilter
-  (reify FileFilter
-    (accept [this f]
-      (.canExecute f))))
-
 (extend Process
   IOFactory
   (assoc default-streams-impl
@@ -34,18 +29,7 @@
                     (print (slurp (.getInputStream ~proc-sym#)))
                     ~proc-sym#)))))))
 
-#_(defn- generate-vars [dir]
-  (let [files (map (memfn getName)
-                   (-> (File. dir) (.listFiles xfilter)))]
-    (dorun (map create-shake-exec-var files))))
-
 (defn -var-missing [sym]
   (create-shake-exec-var sym))
 
-#_(dorun (map generate-vars
-            (clojure.string/split
-             (or
-              (System/getenv "SHAKE_PATH")
-              (System/getenv "PATH"))
-             (re-pattern (System/getProperty "path.separator")))))
 
