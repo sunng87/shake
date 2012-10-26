@@ -6728,6 +6728,16 @@ static Namespace namespaceFor(Namespace inns, Symbol sym){
 	return ns;
 }
 
+static public Var varMissing(Symbol sym) {
+    if (sym.ns != null) {
+        Namespace ns = namespaceFor(sym);
+        Var missing = ns.findInternedVar(Symbol.intern("-var-missing"));
+        if (missing != null && missing.isBound())
+            return  (Var)((IFn)(missing.get())).invoke(sym.name);
+    }
+    return null;
+}
+
 static public Object resolveIn(Namespace n, Symbol sym, boolean allowPrivate) {
 	//note - ns-qualified vars must already exist
 	if(sym.ns != null)
@@ -6739,10 +6749,8 @@ static public Object resolveIn(Namespace n, Symbol sym, boolean allowPrivate) {
 		Var v = ns.findInternedVar(Symbol.intern(sym.name));
 		if(v == null) {
             // hacked by nsun to support lazy loading
-            Var missing = ns.findInternedVar(Symbol.intern("-var-missing"));
-            if (missing.isBound()) {
-                v =  (Var)((IFn)(missing.get())).invoke(sym.name);
-            } else {
+            v = varMissing(sym);
+            if (v == null) {
 			    throw Util.runtimeException("No such var: " + sym);
             }
         } else if(v.ns != currentNS() && !v.isPublic() && !allowPrivate)
@@ -6822,6 +6830,9 @@ static Var lookupVar(Symbol sym, boolean internNew, boolean registerMacro) {
 			var = currentNS().intern(name);
 		else
 			var = ns.findInternedVar(name);
+            if (var == null) {
+                var = varMissing(sym);
+            }
 		}
 	else if(sym.equals(NS))
 		var = RT.NS_VAR;
