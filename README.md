@@ -7,7 +7,7 @@ A Clojure library shakes your shell.
 ### Leiningen
 
 ```
-[shake "0.2.2"]
+[shake "0.3.0"]
 ```
 
 ### Just That Simple
@@ -40,12 +40,6 @@ I/O.
 ;; print output of `uname -a`
 (print (slurp (input-stream (sh/uname -a))))
 ```
-
-### Too Slow to Load (Verbose Clojure Warnings) ?
-
-By default, *shake* indexes all executables under your **PATH**. To
-override this behavior, set environment variable `SHAKE_PATH`
-**before** you initialize the namespace `shake.core`.
 
 ## License
 
