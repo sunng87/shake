@@ -29,5 +29,5 @@
                     ~proc-sym#)))))))
 
 (defn declare-exec [n]
-  (create-shake-exec-var (ns-name *ns*) n))
+  (create-shake-exec-var "shake.core" n))
 
