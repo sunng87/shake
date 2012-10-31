@@ -9,8 +9,8 @@
     :make-input-stream (fn [^Process x opts] (.getInputStream x))
     :make-output-stream (fn [^Process x opts] (.getOutputStream x))))
 
-(defn- create-shake-exec-var [n]
-  (binding [*ns* (the-ns (symbol "shake.core"))]
+(defn create-shake-exec-var [ns-name n]
+  (binding [*ns* (the-ns (symbol ns-name))]
     (eval `(defmacro ~(symbol n) [& args#]
              (let [str-args#
                    (for [x# args#
@@ -28,6 +28,6 @@
                     (print (slurp (.getInputStream ~proc-sym#)))
                     ~proc-sym#)))))))
 
-(defn -var-missing [sym]
-  (create-shake-exec-var sym))
+(defn declare-exec [n]
+  (create-shake-exec-var (ns-name *ns*) n))
 
