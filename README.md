@@ -1,6 +1,6 @@
 # shake
 
-A Clojure library shakes your shell.
+A Clojure library that shakes your shell.
 
 ## Usage
 
@@ -54,7 +54,7 @@ The fallback solution, declare executable before you are using it.
 
 (sh/declare-exec "uname")
 (sh/declare-exec "ls")
-(sh/declare-curl "curl")
+(sh/declare-exec "curl")
 
 ;; any shell command ...
 (sh/uname -a) ;;returns a #<UNIXProcess java.lang.UNIXProcess@1833160>
